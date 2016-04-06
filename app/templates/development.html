@@ -4,6 +4,11 @@
   <title><%= name %></title>
 </head>
 <body>
+  <!-- Use hashchange routing for development -->
+  <script>
+    steal = {map: {"can/route/pushstate/pushstate": "@empty"}}
+  </script>
+
   <script src="node_modules/steal/steal.js"></script>
 </body>
 </html>
