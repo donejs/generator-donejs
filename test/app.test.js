@@ -129,7 +129,7 @@ function prepareRoutingTest(tmpDir){
   // add a button for navigation into index.stache after H1:
   insertAfter(
     path.join(tmpDir, 'src/index.stache'),
-    a => a.search('<h1>') !== -1,
+    function(a){ return a.search('<h1>') !== -1; },
     '<a id="goto-dashboard" href="{{routeUrl page=\'dashboard\'}}">Goto Dashboard</a>'
   );
 }
