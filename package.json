@@ -52,7 +52,7 @@
     "coveralls-send": "0.0.2",
     "donejs": "*",
     "donejs-cli": "^0.8.0",
-    "fs-extra": "^0.26.5",
+    "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.0",
