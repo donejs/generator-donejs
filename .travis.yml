@@ -4,7 +4,7 @@ node_js:
   - "0.10"
   - "0.12"
   - "iojs"
-  - "node"
+  - "5.10.1"
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
