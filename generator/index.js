@@ -1,11 +1,13 @@
-var generators = require('yeoman-generator');
+var BaseGenerator = require('../lib/baseGenerator');
 var path = require('path');
 var _ = require('lodash');
 var packages = require('./packages');
 var utils = require('../lib/utils');
 
-module.exports = generators.Base.extend({
-  initializing: function () {
+module.exports = BaseGenerator.extend({
+  constructor: function(args, opts) {
+    BaseGenerator.call(this, args, opts);
+
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
     // Pre set the default props from the information we have at this point
@@ -19,15 +21,16 @@ module.exports = generators.Base.extend({
 
     this.mainFiles = [
       '_gitignore',
-      'license.md',
-      'readme.md',
+      'CONTRIBUTING.md',
+      'LICENSE',
+      'README.md',
       'default/templates/file.js',
       'default/index.js',
       'test/index.js'
     ];
   },
 
-  prompting: function () {
+  prompting: function() {
     var done = this.async();
 
     var prompts = [{
@@ -69,7 +72,7 @@ module.exports = generators.Base.extend({
       filter: _.words
     }];
 
-    this.prompt(prompts, function (props) {
+    this.prompt(prompts).then(function(props) {
       this.props = _.extend(this.props, props);
       this.props.name = _.kebabCase(this.props.name);
       this.props.addName = this.props.name.replace('donejs-', '');
@@ -77,7 +80,7 @@ module.exports = generators.Base.extend({
     }.bind(this));
   },
 
-  writing: function () {
+  writing: function() {
     var self = this;
 
     this.fs.writeJSON('package.json', {

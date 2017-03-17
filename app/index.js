@@ -1,11 +1,13 @@
 var validate = require("validate-npm-package-name");
-var generators = require('yeoman-generator');
+var BaseGenerator = require('../lib/baseGenerator');
 var path = require('path');
 var _ = require('lodash');
 var npmVersion = require('../lib/utils').npmVersion;
 
-module.exports = generators.Base.extend({
-  initializing: function () {
+module.exports = BaseGenerator.extend({
+  constructor: function(args, opts) {
+    BaseGenerator.call(this, args, opts);
+
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
     // Pre set the default props from the information we have at this point
@@ -18,23 +20,20 @@ module.exports = generators.Base.extend({
     };
 
     this.mainFiles = [
-      'readme.md',
-      'documentjs.json',
+      'README.md',
       '_gitignore',
       'build.js',
       'production.html',
-      'development.html'
+      'development.html',
+      'test.html'
     ];
 
     this.srcFiles = [
-      'test.html',
       'app.js',
       'index.stache',
       'index.md',
       'styles.less',
-      'test.html',
-      'test/test.js',
-      'test/functional.js',
+      'test.js',
       'models/fixtures/fixtures.js',
       'models/test.js'
     ];
@@ -61,7 +60,8 @@ module.exports = generators.Base.extend({
       }, {
         name: 'description',
         message: 'Description',
-        when: !this.pkg.description
+        when: !this.pkg.description,
+        default: 'An awesome DoneJS app'
       }, {
         name: 'homepage',
         message: 'Project homepage url',
@@ -96,17 +96,28 @@ module.exports = generators.Base.extend({
         default: version.major
       }];
 
-      this.prompt(prompts, function (props) {
+      this.prompt(prompts).then(function(props) {
         this.props = _.extend(this.props, props);
         this.props.name = _.kebabCase(this.props.name);
 
         var validationResults = validate(this.props.name);
-        var isValid = validationResults.validForNewPackages;
+        var isValidName = validationResults.validForNewPackages;
 
-        if(!isValid) {
+        if(!isValidName) {
           var warnings = validationResults.warnings;
           var error = new Error('Your project name ' + this.props.name + ' is not ' +
             'valid. Please try another name. Reason: ' + warnings[0]);
+          done(error);
+          return;
+        }
+
+        if (path.isAbsolute(this.props.folder)) {
+          this.props.folder = path.relative(this.destinationPath(), this.props.folder);
+        }
+        var isValidPath = this.props.folder.indexOf('..') === -1;
+        if (!isValidPath) {
+          var error = new Error('Your project main folder ' + this.props.folder + ' is external ' +
+            'to the project folder. Please set to internal path.');
           done(error);
           return;
         }
@@ -117,8 +128,13 @@ module.exports = generators.Base.extend({
   },
 
   writing: function () {
-		var pkgName = this.props.name;
-		var pkgMain = pkgName + '/index.stache!done-autorender';
+    var pkgName = this.props.name;
+    var pkgMain = pkgName + '/index.stache!done-autorender';
+    var repository = this.props.repository || {
+      type: 'git',
+      url: 'git+https://github.com/' + (this.props.githubAccount || 'donejs-user') +
+        '/' + pkgName + '.git'
+    };
 
     var self = this;
     var pkgJsonFields = {
@@ -126,34 +142,41 @@ module.exports = generators.Base.extend({
       version: '0.0.0',
       description: this.props.description,
       homepage: this.props.homepage,
-      repository: this.props.repository,
+      repository: repository,
       author: {
         name: this.props.authorName,
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
+      license: 'UNLICENSED',
+      private: true,
       scripts: {
-        test: 'testee ' + this.props.folder + '/test.html --browsers firefox --reporter Spec',
+        test: 'testee test.html --browsers firefox --reporter Spec',
         start: 'done-serve --port 8080',
         develop: "done-serve --develop --port 8080",
-        document: "documentjs",
         build: "node build"
       },
       main: pkgMain,
       files: [this.props.folder],
       keywords: this.props.keywords,
-      system: {
-				main: pkgMain,
+      steal: {
+        main: pkgMain,
         directories: {
           lib: this.props.folder
         },
         configDependencies: [ 'live-reload', 'node_modules/can-zone/register' ],
-        transpiler: 'babel'
+        plugins: [ 'done-css', 'done-component', 'steal-less', 'steal-stache' ],
+        envs: {
+          'server-production': {
+            renderingBaseURL: '/dist'
+          }
+        },
+        serviceBaseURL: ''
       }
     };
 
-    if(this.props.npmVersion >= 3) {
-      pkgJsonFields.system.npmAlgorithm = 'flat';
+    if(this.props.npmVersion < 3) {
+      pkgJsonFields.steal.npmAlgorithm = 'nested';
     }
 
     if(!this.options.packages) {

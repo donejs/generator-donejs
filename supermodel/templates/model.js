@@ -1,24 +1,29 @@
-import can from 'can';
+import DefineMap from 'can-define/map/';
+import DefineList from 'can-define/list/';
+import set from 'can-set';
 import superMap from 'can-connect/can/super-map/';
-import tag from 'can-connect/can/tag/';
-import 'can/map/define/define';
+import loader from '@loader';
 
-export const <%= className %> = can.Map.extend({
-  define: {}
+const <%= className %> = DefineMap.extend({
+  seal: false
+}, {
+  '<%= idProp %>': '*'
 });
 
-<%= className %>.List = can.List.extend({
-  Map: <%= className %>
-}, {});
+const algebra = new set.Algebra(
+  set.props.id('<%= idProp %>')
+);
 
-export const <%= name %>Connection = superMap({
-  url: '<%= url %>',
-  idProp: '<%= idProp %>',
+<%= className %>.List = DefineList.extend({
+  '*': <%= className %>
+});
+
+<%= className %>.connection = superMap({
+  url: loader.serviceBaseURL + '<%= url %>',
   Map: <%= className %>,
   List: <%= className %>.List,
-  name: '<%= name %>'
+  name: '<%= name %>',
+  algebra
 });
-
-tag('<%= name %>-model', <%= name %>Connection);
 
 export default <%= className %>;
