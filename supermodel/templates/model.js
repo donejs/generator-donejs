@@ -7,7 +7,7 @@ import loader from '@loader';
 const <%= className %> = DefineMap.extend({
   seal: false
 }, {
-  '<%= idProp %>': '*'
+  '<%= idProp %>': 'any'
 });
 
 const algebra = new set.Algebra(
@@ -15,7 +15,7 @@ const algebra = new set.Algebra(
 );
 
 <%= className %>.List = DefineList.extend({
-  '*': <%= className %>
+  '#': <%= className %>
 });
 
 <%= className %>.connection = superMap({
