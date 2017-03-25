@@ -26,9 +26,9 @@ npm install donejs -g
 
 The following commands are availbale. To initialize a new DoneJS related project:
 
-- `donejs init [projectname]` create a new DoneJS application
-- `donejs plugin [projectname]` create a new DoneJS plugin
-- `donejs init --type generator [projectname]` create a new generator project
+- `donejs add app [projectname]` create a new DoneJS application
+- `donejs add plugin [projectname]` create a new DoneJS plugin
+- `donejs add generator [projectname]` create a new generator project
 
 Within a DoneJS application or plugin:
 
