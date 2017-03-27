@@ -4,8 +4,8 @@ module.exports = {
     "yeoman-generator": "^1.1.0"
   },
   devDependencies: {
-    "mocha": "^2.5.1",
     "jshint": "^2.9.2",
+    "mocha": "^2.5.1",
     "yeoman-assert": "^2.2.1",
     "yeoman-test": "^1.6.0"
   }
