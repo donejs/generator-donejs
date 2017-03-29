@@ -47,4 +47,49 @@ describe('generator-donejs:plugin', function () {
         });
       });
   });
+
+  it('should write dependencies to package.json', function (done) {
+    var tmpDir;
+
+    helpers.run(path.join(__dirname, '../plugin'))
+      .inTmpDir(function (dir) {
+        tmpDir = dir;
+      })
+      .withOptions({
+        packages: {
+          dependencies: {
+            "can-component": "^3.0.4",
+            "can-define": "^1.0.10",
+            "can-stache": "^3.0.16",
+            "can-view-autorender": "^3.0.4",
+            "steal-less": "^1.2.0",
+            "steal-stache": "^3.0.5"
+          },
+          devDependencies: donejsPackage.donejs.devDependencies
+        },
+        skipInstall: false
+      })
+      .withPrompts({
+        name: 'my-plugin'
+      })
+      .on('end', function () {
+        assert.jsonFileContent('package.json', {
+          steal: {
+            plugins: [
+              "steal-less",
+              "steal-stache"
+            ]
+          },
+          dependencies: {
+            "can-component": "^3.0.4",
+            "can-define": "^1.0.10",
+            "can-stache": "^3.0.16",
+            "can-view-autorender": "^3.0.4",
+            "steal-less": "^1.2.0",
+            "steal-stache": "^3.0.5"
+          }
+        });
+        done();
+      });
+  });
 });

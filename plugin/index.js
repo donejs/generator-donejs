@@ -145,6 +145,10 @@ module.exports = BaseGenerator.extend({
           'generator-donejs',
           'donejs-cli',
           'steal-tools'
+        ],
+        plugins: [
+          'steal-less',
+          'steal-stache'
         ]
       }
     };
@@ -170,9 +174,13 @@ module.exports = BaseGenerator.extend({
 
     this.fs.writeJSON('package.json', _.extend(pkgJsonFields, this.pkg, {
       dependencies: {
-        'can': getDependency('can'),
-        'jquery': getDependency('jquery'),
-        'cssify': '^0.6.0'
+        'can-component': getDependency('can-component'),
+        'can-define': getDependency('can-define'),
+        'can-stache': getDependency('can-stache'),
+        'can-view-autorender': getDependency('can-view-autorender'),
+        'cssify': '^0.6.0',
+        'steal-less': getDependency('steal-less'),
+        'steal-stache': getDependency('steal-stache')
       },
       devDependencies: {
         'jshint': '^2.9.1',
