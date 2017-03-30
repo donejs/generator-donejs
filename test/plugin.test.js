@@ -34,7 +34,7 @@ describe('generator-donejs:plugin', function () {
 
         child.on('exit', function (status) {
           assert.equal(status, 0, 'Got correct exit status');
-          
+
           child = exec('npm run build', {
             cwd: tmpDir
           });
@@ -89,6 +89,21 @@ describe('generator-donejs:plugin', function () {
             "steal-stache": "^3.0.5"
           }
         });
+        done();
+      });
+  });
+
+  it('fails if there are no packages', function(done) {
+    helpers.run(path.join(__dirname, '../plugin'))
+      .withOptions({
+        packages: null,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'my-plugin'
+      })
+      .on('error', function(err){
+        assert(true, 'An error for not providing packages');
         done();
       });
   });
