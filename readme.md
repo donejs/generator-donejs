@@ -106,12 +106,49 @@ import route from "can-route";
 route("{page}", { page: "home" });
 ```
 
-## donejs add plugin
-
-## donejs add generator
-
 ## donejs add component
+
+Generators a new [can-component](https://github.com/canjs/can-component) that can be used as a custom element in your application.
+
+![donejs add component](https://cloud.githubusercontent.com/assets/361671/24618995/af601d52-1866-11e7-9586-506c102bed87.png)
+
+There are two forms to using this command:
+
+* `donejs add component <name>.component` will generate `src/name.component`. This is a single-file component using [done-component](https://github.com/donejs/done-component).
+* `donejs add component <name>` will generator a folder `src/name/` with the files:
+  * **name.js**: The JavaScript module.
+  * **name.less**: A [less](http://lesscss.org/) file for the component's styles.
+  * **name.stache**: A [stache](https://github.com/canjs/can-stache) template.
+  * **name.html**: A demo page, used for developing this component in isolation.
+  * **name-test.js**: A JavaScript module that contains unit tests (by default using [QUnit](https://qunitjs.com/)).
+  * **test.html**: A page which runs the tests in **name-test.js**.
+  * **name.md**: A markdown file, used to document the component.
 
 ## donejs add supermodel
 
+Generates a [can-connect](https://github.com/canjs/can-connect) model. This model is an observable type, used to connect to a service layer.
+
+![donejs add supermodel](https://cloud.githubusercontent.com/assets/361671/24619404/d7716f70-1867-11e7-96df-e3f46a1376f5.png)
+
 ## donejs add module
+
+Creates a generic modlet. This modlet can be used for any purpose and contains:
+
+* **foo.js**: The JavaScript module.
+* **foo-test.js**: A JavaScript module for writing unit tests.
+* **test.html**: A test page for running the tests in foo-test.js.
+* **foo.md**: A markdown file, for documenting the modlet.
+
+## donejs add plugin
+
+Generates a new plugin project. This is useful for creating DoneJS plugins or any open-source project that uses StealJS and the modlet pattern.
+
+Like `donejs add app`, the plugin generator scaffolds a project and puts the source code in a `src/` folder (you can specify a different folder when running the generator).
+
+```shell
+donejs add plugin awesome-plugin
+```
+
+## donejs add generator
+
+Generators a new generator project. Learn more about writing a generator in [the generator guide](http://donejs.com/generator.html).
