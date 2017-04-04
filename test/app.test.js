@@ -191,6 +191,32 @@ describe('generator-donejs', function () {
       });
   });
 
+  describe('Package names', function(){
+    it('can include numbers', function(done){
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../app'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+        })
+        .withOptions({
+          packages: donejsPackage.donejs,
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'hot5'
+        })
+        .on('end', function () {
+          var pkg = require(tmpDir + '/package.json');
+
+          assert.equal(pkg.name, 'hot5', 'name was not changed');
+          assert.equal(pkg.main, 'hot5/index.stache!done-autorender', 'main is correct');
+
+          done();
+        });
+    });
+  });
+
   describe('if user can\'t write to ~/yo-rc-global.json', function() {
     var globalConfigPath, globalConfigPermissions;
 

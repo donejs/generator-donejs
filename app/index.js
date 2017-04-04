@@ -98,10 +98,18 @@ module.exports = BaseGenerator.extend({
 
       this.prompt(prompts).then(function(props) {
         this.props = _.extend(this.props, props);
-        this.props.name = _.kebabCase(this.props.name);
 
         var validationResults = validate(this.props.name);
         var isValidName = validationResults.validForNewPackages;
+
+        // Try to fix it by kebab casing.
+        // We don't do this first because kebabCase can change
+        // otherwise valid names, which is undesirable.
+        if(!isValidName) {
+          this.props.name = _.kebabCase(this.props.name);
+          validationResults = validate(this.props.name);
+          isValidName = validationResults.validForNewPackages;
+        }
 
         if(!isValidName) {
           var warnings = validationResults.warnings;
