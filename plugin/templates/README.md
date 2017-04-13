@@ -23,28 +23,6 @@ needed to create a template that uses `<%= name %>`:
 var plugin = require("<%= name %>");
 ```
 
-## AMD use
-
-Configure the `can` and `jquery` paths and the `<%= name %>` package:
-
-```html
-<script src="require.js"></script>
-<script>
-	require.config({
-	    paths: {
-	        "jquery": "node_modules/jquery/dist/jquery",
-	        "can": "node_modules/canjs/dist/amd/can"
-	    },
-	    packages: [{
-		    	name: '<%= name %>',
-		    	location: 'node_modules/<%= name %>/dist/amd',
-		    	main: 'lib/<%= name %>'
-	    }]
-	});
-	require(["main-amd"], function(){});
-</script>
-```
-
 ### Standalone use
 
 Load the `global` version of the plugin:
