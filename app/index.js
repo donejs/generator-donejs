@@ -156,7 +156,6 @@ module.exports = BaseGenerator.extend({
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      license: 'UNLICENSED',
       private: true,
       scripts: {
         test: 'testee test.html --browsers firefox --reporter Spec',
@@ -200,6 +199,13 @@ module.exports = BaseGenerator.extend({
       dependencies: deps,
       devDependencies: devDeps
     }));
+
+    this.composeWith(require.resolve('generator-license/app'), {
+      name: this.props.authorName,
+      email: this.props.authorEmail,
+      website: this.props.authorUrl,
+      defaultLicense: 'MIT'
+    });
 
     this.mainFiles.forEach(function(name) {
       // Handle bug where npm has renamed .gitignore to .npmignore

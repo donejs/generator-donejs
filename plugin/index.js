@@ -194,6 +194,13 @@ module.exports = BaseGenerator.extend({
       }
     }));
 
+    this.composeWith(require.resolve('generator-license/app'), {
+      name: this.props.authorName,
+      email: this.props.authorEmail,
+      website: this.props.authorUrl,
+      defaultLicense: 'MIT'
+    });
+
     this.fs.copy(this.templatePath('static'), this.destinationPath());
     this.fs.copy(this.templatePath('static/.*'), this.destinationPath());
 

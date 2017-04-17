@@ -11,12 +11,14 @@ function pipe(child) {
   child.stderr.pipe(process.stderr);
 }
 
+var generator = path.join(__dirname, '../app');
+
 describe('generator-donejs', function () {
   describe('donejs:app', function() {
     it('works', function (done) {
       var tmpDir;
 
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           tmpDir = dir;
         })
@@ -44,7 +46,7 @@ describe('generator-donejs', function () {
     });
 
     it('fails with an invalid package name', function (done) {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .withOptions({
           packages: donejsPackage.donejs,
           skipInstall: true
@@ -60,7 +62,7 @@ describe('generator-donejs', function () {
     });
 
     it('fails if there are no packages', function(done) {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .withOptions({
           packages: null,
           skipInstall: true
@@ -76,36 +78,34 @@ describe('generator-donejs', function () {
   });
 
   describe('Absolute path support', function() {
-    before(function(done) {
-      helpers.run(path.join(__dirname, '../app'))
+    it('set relative path name', function (done) {
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           this.withPrompts({
-            folder: path.join(fs.realpathSync(dir), 'src')
-          })
+            folder: path.join(fs.realpathSync(dir), 'src'),
+            authorName: 'Test'
+          });
         })
         .withOptions({
           packages: donejsPackage.donejs,
           skipInstall: true
         })
         .on('end', function() {
+          assert.jsonFileContent('package.json', {
+            steal: {
+              directories: {
+                lib: 'src'
+              }
+            }
+          });
           done();
-        })
-    });
-
-    it('set relative path name', function() {
-      assert.jsonFileContent('package.json', {
-        steal: {
-          directories: {
-            lib: 'src'
-          }
-        }
-      });
+        });
     });
   });
 
   describe('External path will error', function() {
     it("fails with external path", function(done) {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           this.withPrompts({
             folder: path.join(fs.realpathSync(dir), '..', 'src')
@@ -138,7 +138,7 @@ describe('generator-donejs', function () {
       var major = this.npmVersion.major;
       var tmpDir;
 
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           tmpDir = dir;
         })
@@ -167,7 +167,7 @@ describe('generator-donejs', function () {
   it('steal-less and steal-stache are added as steal plugins', function(done) {
     var tmpDir;
 
-    helpers.run(path.join(__dirname, '../app'))
+    helpers.run(generator)
       .inTmpDir(function (dir) {
         tmpDir = dir;
       })
@@ -191,11 +191,34 @@ describe('generator-donejs', function () {
       });
   });
 
+  it('adds a license to the root folder and package.json', function (done) {
+    var tmpDir;
+    helpers.run(generator)
+      .inTmpDir(function (dir) {
+        tmpDir = dir
+      })
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'demo',
+        authorName: 'Amy Wong',
+        authorEmail: 'amy.wong@example.com',
+        authorUrl: 'https://wongcorp.com'
+      })
+      .on('end', function () {
+        assert.jsonFileContent('package.json', {license: 'MIT'}, 'license field set in package.json');
+        assert(fs.existsSync(path.join(tmpDir, 'LICENSE')), 'license file exists in root folder');
+        done();
+      });
+  });
+
   describe('Package names', function(){
     it('can include numbers', function(done){
       var tmpDir;
 
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           tmpDir = dir;
         })
@@ -245,7 +268,7 @@ describe('generator-donejs', function () {
     it('works', function (done) {
       var tmpDir;
 
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(generator)
         .inTmpDir(function (dir) {
           tmpDir = dir;
         })

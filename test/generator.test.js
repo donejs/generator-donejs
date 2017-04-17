@@ -1,4 +1,5 @@
 var assert = require('assert');
+var fs = require('fs');
 var path = require('path');
 var helpers = require('yeoman-test');
 var exec = require('child_process').exec;
@@ -10,11 +11,13 @@ function pipe(child) {
   child.stderr.pipe(process.stderr);
 }
 
+var generator = path.join(__dirname, '../generator');
+
 describe('generator-donejs:generator', function () {
   it('donejs:generator', function (done) {
     var tmpDir;
 
-    helpers.run(path.join(__dirname, '../generator'))
+    helpers.run(path.join(generator))
       .inTmpDir(function (dir) {
         tmpDir = dir;
       })
@@ -36,6 +39,29 @@ describe('generator-donejs:generator', function () {
           assert.equal(status, 0, 'Got correct exit status');
           done();
         });
+      });
+  });
+
+  it('adds a license to the root folder and package.json', function (done) {
+    var tmpDir;
+    helpers.run(generator)
+      .inTmpDir(function (dir) {
+        tmpDir = dir
+      })
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'demo',
+        authorName: 'Amy Wong',
+        authorEmail: 'amy.wong@example.com',
+        authorUrl: 'https://wongcorp.com'
+      })
+      .on('end', function () {
+        assert.jsonFileContent('package.json', {license: 'MIT'}, 'license field set in package.json');
+        assert(fs.existsSync(path.join(tmpDir, 'LICENSE')), 'license file exists in root folder');
+        done();
       });
   });
 });

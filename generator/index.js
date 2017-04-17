@@ -22,7 +22,6 @@ module.exports = BaseGenerator.extend({
     this.mainFiles = [
       '_gitignore',
       'CONTRIBUTING.md',
-      'LICENSE',
       'README.md',
       'default/templates/file.js',
       'default/index.js',
@@ -94,7 +93,6 @@ module.exports = BaseGenerator.extend({
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      license: "MIT",
       main: "lib/",
       scripts: {
         test: "npm run jshint && npm run mocha",
@@ -113,6 +111,13 @@ module.exports = BaseGenerator.extend({
 
     this.npmInstall(deps, { 'save': true });
     this.npmInstall(devDeps, { 'saveDev': true });
+
+    this.composeWith(require.resolve('generator-license/app'), {
+      name: this.props.authorName,
+      email: this.props.authorEmail,
+      website: this.props.authorUrl,
+      defaultLicense: 'MIT'
+    });
 
     this.fs.copy(this.templatePath('static'), this.destinationPath());
     this.fs.copy(this.templatePath('static/.*'), this.destinationPath());
