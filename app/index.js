@@ -2,7 +2,9 @@ var validate = require("validate-npm-package-name");
 var BaseGenerator = require('../lib/baseGenerator');
 var path = require('path');
 var _ = require('lodash');
-var npmVersion = require('../lib/utils').npmVersion;
+var utils = require('../lib/utils');
+var npmVersion = utils.npmVersion;
+var doneJSAppKeyword = utils.keywords.app;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -145,6 +147,7 @@ module.exports = BaseGenerator.extend({
     };
 
     var self = this;
+    var keywords = (this.props.keywords || []).concat(doneJSAppKeyword);
     var pkgJsonFields = {
       name: pkgName,
       version: '0.0.0',
@@ -165,7 +168,7 @@ module.exports = BaseGenerator.extend({
       },
       main: pkgMain,
       files: [this.props.folder],
-      keywords: this.props.keywords,
+      keywords: keywords,
       steal: {
         main: pkgMain,
         directories: {

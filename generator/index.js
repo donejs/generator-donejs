@@ -3,6 +3,7 @@ var path = require('path');
 var _ = require('lodash');
 var packages = require('./packages');
 var utils = require('../lib/utils');
+var doneJSGeneratorKeyword = utils.keywords.generator;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -81,7 +82,7 @@ module.exports = BaseGenerator.extend({
 
   writing: function() {
     var self = this;
-
+    var keywords = (this.props.keywords || []).concat(doneJSGeneratorKeyword);
     this.fs.writeJSON('package.json', {
       name: this.props.name,
       version: '0.0.0',
@@ -103,7 +104,7 @@ module.exports = BaseGenerator.extend({
         'release:minor': "npm version minor && npm publish",
         'release:major': "npm version major && npm publish"
       },
-      keywords: this.props.keywords
+      keywords: keywords
     });
 
     var deps = utils.toNpmInstallStrings(packages.dependencies);

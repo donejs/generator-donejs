@@ -64,4 +64,23 @@ describe('generator-donejs:generator', function () {
         done();
       });
   });
+
+  it('tags the package with donejs-generator keyword', function () {
+    helpers.run(generator)
+      .inTmpDir(function (dir) {})
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'demo',
+        authorName: 'Amy Wong',
+        authorEmail: 'amy.wong@example.com',
+        authorUrl: 'https://wongcorp.com'
+      })
+      .on('end', function () {
+        assert.jsonFileContent('package.json', {keywords: ['donejs-generator']}, 'NPM keyword included');
+        done();
+      });
+  })
 });

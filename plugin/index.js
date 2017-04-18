@@ -1,7 +1,9 @@
 var BaseGenerator = require('../lib/baseGenerator');
 var path = require('path');
 var _ = require('lodash');
-var npmVersion = require('../lib/utils').npmVersion;
+var utils = require('../lib/utils')
+var npmVersion = utils.npmVersion;
+var doneJSPluginKeyword = utils.keywords.plugin;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -102,6 +104,7 @@ module.exports = BaseGenerator.extend({
     var self = this;
     var jshintFolder = this.props.folder && this.props.folder !== '.' ?
       ' ./' + this.props.folder + '/' : '';
+    var keywords = (this.props.keywords || []).concat(doneJSPluginKeyword);
     var pkgJsonFields = {
       name: this.props.name,
       version: '0.0.0',
@@ -136,7 +139,7 @@ module.exports = BaseGenerator.extend({
       browserify: {
        transform: [ "cssify" ]
       },
-      keywords: this.props.keywords,
+      keywords: keywords,
       steal: {
         main: this.props.name,
         configDependencies: [ 'live-reload' ],
