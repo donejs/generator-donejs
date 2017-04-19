@@ -3,23 +3,104 @@
   <head>
     <title><%= name %> - A Plugin for DoneJS</title>
     <style>
+      * {box-sizing: border-box;}
       body {
-        width: 800px;
-        margin: 0 auto;
-        text-align: center;
+        margin: 0px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        border-top: 2px solid #CB3036;
       }
-      h1 {
-        font-weight: 100;
-        font-size: 60px;
-        color: #393E40;
+      .container {
+        max-width: 680px;
+        padding: 20px;
+        margin: 20px auto;
+      }
+      pre {
+        background-color: #eee;
+        color: #222;
+        padding: 10px;
+        border-radius: 2px;
+        margin-bottom: 1.5em;
+      }
+
+      header h1 {
+        margin: 0px;
+        color: #111;
+      }
+
+      header h2 {
+        margin: 0px 1em 0px 0px;
+        color: #222;
+      }
+
+      .links {
+        float: right;
+      }
+
+      h3 {
+        margin: 5px 0px;
+        color: #555;
+        font-size: 1.1em;
+      }
+
+      p {
+        color: #333;
+        margin: 0 0 1em 0;
+      }
+
+      a {
+        color: #2c83a0;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        font-size: 0.9em;
+        opacity: 0.9;
       }
     </style>
   </head>
   <body>
-    <h1>Created with the</h1>
-    <a href="https://donejs.com/plugin.html">
-      <img src="https://donejs.com/static/img/donejs-logo-black.svg" alt="DoneJS logo" style="max-width:100%;">
-    </a>
-    <a href="https://www.bitovi.com/blog/create-reusable-components-for-your-donejs-applications">plugin generator</a>
+    <div class="container">
+      <header>
+        <div class='links'>
+          <p><a href="https://github.com/<%= githubAccount %>/<%= name %>">View on Github</a></p>
+          <p><a href="https://travis-ci.org/<%= githubAccount %>/<%= name %>"><img alt='Build Status' src='https://travis-ci.org/<%= githubAccount %>/<%= name %>.png?branch=master'/></a></p>
+        </div>
+        <h1><%= name %></h1>
+        <h2><%= description %></h2>
+      </header>
+
+      <h2 id="usage">Usage</h2>
+
+      <h3 id="es6use">ES6 use</h3>
+
+      <p>With StealJS, you can import this module directly in a template that is autorendered:</p>
+
+      <pre><code class="js language-js">import plugin from '<%= name %>';</code></pre>
+
+      <h3 id="commonjsuse">CommonJS use</h3>
+
+      <p>Use <code>require</code> to load <code><%= name %></code> and everything else
+      needed to create a template that uses <code><%= name %></code>:</p>
+
+      <pre><code class="js language-js">var plugin = require("<%= name %>");</code></pre>
+
+      <h3 id="standaloneuse">Standalone use</h3>
+
+      <p>Load the <code>global</code> version of the plugin:</p>
+
+      <pre><code class="html language-html">&lt;script src='./node_modules/<%= name %>/dist/global/<%= name %>.js'&gt;&lt;/script&gt;</code></pre>
+
+      <p>This plugin is one of many. Check out all of the <a href="https://www.npmjs.com/search?q=keywords:donejs-plugin">DoneJS plugins on NPM</a>.</p>
+
+      <footer>
+        <p>This page was created with the
+          <a href='https://donejs.com/plugin.html'>DoneJS</a>
+          <a href='https://www.bitovi.com/blog/create-reusable-components-for-your-donejs-applications'>plugin generator</a>.
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
