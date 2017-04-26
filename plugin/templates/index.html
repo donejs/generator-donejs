@@ -14,6 +14,9 @@
         max-width: 800px;
         padding: 20px;
       }
+      .text-right {
+        text-align: right;
+      }
       pre {
         background-color: #eee;
         border-radius: 2px;
@@ -66,8 +69,8 @@
     <div class="container">
       <header>
         <div class='links'>
-          <p><a href="https://github.com/<%= githubAccount %>/<%= name %>">View on Github</a></p>
-          <p><a href="https://travis-ci.org/<%= githubAccount %>/<%= name %>"><img alt='Build Status' src='https://travis-ci.org/<%= githubAccount %>/<%= name %>.svg?branch=master'/></a></p>
+          <p><a href="https://github.com/<%= githubAccount %>/<%= name %>">View on GitHub</a></p>
+          <p class="text-right"><a href="https://travis-ci.org/<%= githubAccount %>/<%= name %>"><img alt='Build Status' src='https://travis-ci.org/<%= githubAccount %>/<%= name %>.svg?branch=master'/></a></p>
         </div>
         <h1><%= name %></h1>
         <h2><%= description %></h2>
