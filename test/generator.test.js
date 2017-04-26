@@ -65,7 +65,7 @@ describe('generator-donejs:generator', function () {
       });
   });
 
-  it('tags the package with donejs-generator keyword', function () {
+  it('tags the package with donejs-generator keyword', function (done) {
     helpers.run(generator)
       .inTmpDir(function (dir) {})
       .withOptions({
@@ -82,5 +82,26 @@ describe('generator-donejs:generator', function () {
         assert.jsonFileContent('package.json', {keywords: ['donejs-generator']}, 'NPM keyword included');
         done();
       });
-  })
+  });
+
+  it('should allow dashed keywords to be entered', function (done) {
+    helpers.run(generator)
+      .inTmpDir(function (dir) {})
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'demo',
+        authorName: 'Amy Wong',
+        authorEmail: 'amy.wong@example.com',
+        authorUrl: 'https://wongcorp.com',
+        keywords: 'a b-c, e'
+      })
+      .on('end', function () {
+        var keywords = ['a', 'b-c', 'donejs-generator', 'e'];
+        assert.jsonFileContent('package.json', {keywords: keywords}, 'correct keywords set in package.json');
+        done();
+      });
+  });
 });

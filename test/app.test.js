@@ -214,6 +214,27 @@ describe('generator-donejs', function () {
       });
   });
 
+  it('should allow dashed keywords to be entered', function (done) {
+    helpers.run(generator)
+      .inTmpDir(function (dir) {})
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'demo',
+        authorName: 'Amy Wong',
+        authorEmail: 'amy.wong@example.com',
+        authorUrl: 'https://wongcorp.com',
+        keywords: 'a b-c, e'
+      })
+      .on('end', function () {
+        var keywords = ['a', 'b-c', 'donejs-app', 'e'];
+        assert.jsonFileContent('package.json', {keywords: keywords}, 'correct keywords set in package.json');
+        done();
+      });
+  });
+
   describe('Package names', function(){
     it('can include numbers', function(done){
       var tmpDir;

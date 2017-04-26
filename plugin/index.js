@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('lodash');
 var utils = require('../lib/utils')
 var npmVersion = utils.npmVersion;
-var doneJSPluginKeyword = utils.keywords.plugin;
+var getKeywords = utils.getKeywords;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -84,8 +84,7 @@ module.exports = BaseGenerator.extend({
       }, {
         name: 'keywords',
         message: 'Application keywords',
-        when: !this.pkg.keywords,
-        filter: _.words
+        when: !this.pkg.keywords
       }, {
         name: 'npmVersion',
         message: 'NPM version used',
@@ -104,7 +103,7 @@ module.exports = BaseGenerator.extend({
     var self = this;
     var jshintFolder = this.props.folder && this.props.folder !== '.' ?
       ' ./' + this.props.folder + '/' : '';
-    var keywords = (this.props.keywords || []).concat(doneJSPluginKeyword);
+    var keywords = getKeywords('plugin', this.props.keywords);
     var pkgJsonFields = {
       name: this.props.name,
       version: '0.0.0',

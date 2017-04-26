@@ -4,7 +4,7 @@ var path = require('path');
 var _ = require('lodash');
 var utils = require('../lib/utils');
 var npmVersion = utils.npmVersion;
-var doneJSAppKeyword = utils.keywords.app;
+var getKeywords = utils.getKeywords;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -90,8 +90,7 @@ module.exports = BaseGenerator.extend({
       }, {
         name: 'keywords',
         message: 'Application keywords',
-        when: !this.pkg.keywords,
-        filter: _.words
+        when: !this.pkg.keywords
       }, {
         name: 'npmVersion',
         message: 'NPM version used',
@@ -147,7 +146,7 @@ module.exports = BaseGenerator.extend({
     };
 
     var self = this;
-    var keywords = (this.props.keywords || []).concat(doneJSAppKeyword);
+    var keywords = getKeywords('app', this.props.keywords);
     var pkgJsonFields = {
       name: pkgName,
       version: '0.0.0',

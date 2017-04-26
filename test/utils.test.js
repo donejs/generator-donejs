@@ -118,4 +118,13 @@ describe('generator:utils', function() {
     assert.ok(utils.validateTagName('abc-xyz'), 'should return true for valid names');
     assert.ok(/abc is not a valid tag name/.test(utils.validateTagName('abc')), 'should return warning message for invalid names');
   });
+
+  it('getKeywords() should return correct keywords', function () {
+    var getKeywords = utils.getKeywords;
+    assert.deepEqual(getKeywords(null), []);
+    assert.deepEqual(getKeywords(null, []), []);
+    assert.deepEqual(getKeywords(null, ['cake', 'yes-no']), ['cake', 'yes-no']);
+    assert.deepEqual(getKeywords(null, 'cake yes-no'), ['cake', 'yes-no']);
+    assert.deepEqual(getKeywords('generator', 'cake yes-no'), ['cake', 'donejs-generator', 'yes-no'])
+  });
 });

@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('lodash');
 var packages = require('./packages');
 var utils = require('../lib/utils');
-var doneJSGeneratorKeyword = utils.keywords.generator;
+var getKeywords = utils.getKeywords;
 
 module.exports = BaseGenerator.extend({
   constructor: function(args, opts) {
@@ -68,8 +68,7 @@ module.exports = BaseGenerator.extend({
     }, {
       name: 'keywords',
       message: 'Application keywords',
-      when: !this.pkg.keywords,
-      filter: _.words
+      when: !this.pkg.keywords
     }];
 
     this.prompt(prompts).then(function(props) {
@@ -82,7 +81,7 @@ module.exports = BaseGenerator.extend({
 
   writing: function() {
     var self = this;
-    var keywords = (this.props.keywords || []).concat(doneJSGeneratorKeyword);
+    var keywords = getKeywords('generator', this.props.keywords);
     this.fs.writeJSON('package.json', {
       name: this.props.name,
       version: '0.0.0',
