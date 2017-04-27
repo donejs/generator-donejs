@@ -1,6 +1,6 @@
 # <%= name %>
 
-[![Build Status](https://travis-ci.org/<%= githubAccount %>/<%= name %>.png?branch=master)](https://travis-ci.org/<%= githubAccount %>/<%= name %>)
+[![Build Status](https://travis-ci.org/<%= githubAccount %>/<%= name %>.svg?branch=master)](https://travis-ci.org/<%= githubAccount %>/<%= name %>)
 
 <%= description %>
 
