@@ -231,7 +231,11 @@ module.exports = BaseGenerator.extend({
   end: function () {
     if(!this.options.skipInstall) {
       var done = this.async();
-      this.spawnCommand('npm', ['--loglevel', 'error', 'install']).on('close', done);
+      if (utils.yarnInstalled) {
+        this.spawnCommand('yarn').on('close', done);
+      } else {
+        this.spawnCommand('npm', ['--loglevel', 'error', 'install']).on('close', done);
+      }
     }
   }
 });
