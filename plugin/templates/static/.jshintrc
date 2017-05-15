@@ -26,7 +26,7 @@
 	"eqeqeq": true,
 	"freeze": true,
 	"indent": 2,
-	"latedef": true,
+	"latedef": "nofunc",
 	"noarg": true,
 	"undef": true,
 	"unused": true,
