@@ -167,8 +167,6 @@ module.exports = BaseGenerator.extend({
       throw new Error('No DoneJS dependency package list provided!');
     }
 
-    this.log('Writing package.json v' + this.options.version);
-
     var getDependency = function(name) {
       return self.options.packages.dependencies[name] ||
         self.options.packages.devDependencies[name];
