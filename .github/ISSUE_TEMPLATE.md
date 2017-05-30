@@ -45,7 +45,7 @@ __Environment:__
 | Software                             | Version
 | -------------------------- | -------
 | donejs -V                            | 
-| generator-donejs version  | 
+| npm ls generator-donejs   | 
 | node -v                               | 
 | npm -v                                | 
 | Operating system              | 
