@@ -72,6 +72,24 @@ npm run build
 
 This will create a `dist/` folder that contains the AMD, CommonJS, and global module versions of the project.
 
+#### Minifying your build output
+
+To output minified versions, in the `build.js` add `minify: true` to the outputs.
+
+```js
+{
+  // in build.js export config
+  outputs: {
+    "+cjs": { minify: true },
+    "+amd": { minify: true },
+    "+global-js": { minify: true }
+  }
+}
+```
+
+
+See [Steal's export options](https://stealjs.com/docs/steal-tools.export.object.html#outputs) for more details.
+
 ### Building the documentation
 
 To generate the docs:
