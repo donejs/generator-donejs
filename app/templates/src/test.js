@@ -1,7 +1,7 @@
-import F from 'funcunit';
-import QUnit from 'steal-qunit';
+var F = require('funcunit');
+var QUnit = require('steal-qunit');
 
-import '<%= name %>/models/test';
+require('<%= name %>/models/test');
 
 F.attach(QUnit);
 
