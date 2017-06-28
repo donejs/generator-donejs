@@ -1,5 +1,5 @@
-import F from 'funcunit';
-import QUnit from 'steal-qunit';
+var F = require('funcunit');
+var QUnit = require('steal-qunit');
 
 F.attach(QUnit);
 
