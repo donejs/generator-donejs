@@ -342,7 +342,7 @@ function prepareRoutingTest(tmpDir){
 
   // add routing into app.js:
   // route('/:page', {page: 'home'});
-  fs.appendFileSync(path.join(tmpDir, 'src/app.js'), '\nroute("/:page", {page: "home"});\n');
+  fs.appendFileSync(path.join(tmpDir, 'src/app.js'), '\nroute("/{page}", {page: "home"});\n');
 
   // add a button for navigation into index.stache after H1:
   insert(
