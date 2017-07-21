@@ -15,7 +15,7 @@ var generator = path.join(__dirname, '../app');
 
 describe('generator-donejs', function () {
   describe('donejs:app', function() {
-    it.only('works', function (done) {
+    it('works', function (done) {
       var tmpDir;
 
       helpers.run(generator)
