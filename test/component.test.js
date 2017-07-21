@@ -172,5 +172,32 @@ describe('generator-donejs', function () {
           done();
         });
     });
+
+    it('Ignore trailing slashes on component name', function(done) {
+    var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'basics/foo/ bar',
+          tag: 'foo-bar'
+        })
+        .on('end', function () {
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.js')), 'bar.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.md')), 'bar.md exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.less')), 'bar.less exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.stache')), 'bar.stache exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar-test.js')), 'bar-test.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.html')), 'bar.html exists');
+          done();
+        });
+    });
+
   });
 });
