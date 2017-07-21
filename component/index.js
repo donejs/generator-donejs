@@ -72,7 +72,7 @@ module.exports = BaseGenerator.extend({
       return;
     }
 
-    var parts = this.options.name.split('/');
+    var parts = _.map( this.options.name.split('/'), _.trim );
     var name = _.last(parts);
     var folder = _.get(pkg, 'steal.directories.lib') || "./";
     var appName = _.get(pkg, 'name');
