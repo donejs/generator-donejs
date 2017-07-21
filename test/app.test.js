@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('yeoman-assert');
 var path = require('path');
 var fs = require('fs-extra');
 var helpers = require('yeoman-test');
@@ -15,7 +15,7 @@ var generator = path.join(__dirname, '../app');
 
 describe('generator-donejs', function () {
   describe('donejs:app', function() {
-    it('works', function (done) {
+    it.only('works', function (done) {
       var tmpDir;
 
       helpers.run(generator)
