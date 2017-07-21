@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('yeoman-assert');
 var utils = require('../lib/utils');
 var testHelpers = require('./helpers');
 var mkdirp = require('mkdirp');
