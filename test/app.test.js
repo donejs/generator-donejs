@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('yeoman-assert');
 var path = require('path');
 var fs = require('fs-extra');
 var helpers = require('yeoman-test');
