@@ -89,15 +89,3 @@ To output minified versions, in the `build.js` add `minify: true` to the outputs
 
 
 See [Steal's export options](https://stealjs.com/docs/steal-tools.export.object.html#outputs) for more details.
-
-### Building the documentation
-
-To generate the docs:
-
-```shell
-npm run document
-```
-
-This will create a `docs/` folder that contains a browsable site with all of your documentation.
-
-With the dev server running, you can view the docs at http://localhost:8080/docs/
