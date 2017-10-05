@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "6"
+addons:
+  firefox: "latest-esr"
+  apt:
+    packages:
+      - dbus-x11
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
