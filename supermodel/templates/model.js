@@ -10,13 +10,13 @@ const <%= className %> = DefineMap.extend({
   '<%= idProp %>': 'any'
 });
 
-const algebra = new set.Algebra(
-  set.props.id('<%= idProp %>')
-);
-
 <%= className %>.List = DefineList.extend({
   '#': <%= className %>
 });
+
+const algebra = new set.Algebra(
+  set.props.id('<%= idProp %>')
+);
 
 <%= className %>.connection = superMap({
   url: loader.serviceBaseURL + '<%= url %>',
