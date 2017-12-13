@@ -5,8 +5,6 @@ import superMap from 'can-connect/can/super-map/';
 import loader from '@loader';
 
 const <%= className %> = DefineMap.extend({
-  seal: false
-}, {
   '<%= idProp %>': 'any'
 });
 
