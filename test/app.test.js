@@ -348,7 +348,7 @@ function prepareRoutingTest(tmpDir){
   insert(
     path.join(tmpDir, 'src/index.stache'),
     function(a){ return a.search('<h1>') !== -1; },
-    '<can-import from="can-stache/helpers/route" />' +
+    '<can-import from="can-stache-route-helpers" />' +
     '<a id="goto-dashboard" href="{{routeUrl page=\'dashboard\'}}">Goto Dashboard</a>'
   );
 }
