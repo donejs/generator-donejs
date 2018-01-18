@@ -12,7 +12,7 @@
 
     export default DefineMap.extend({
       message: {
-        value: 'This is the <%= tag %> component'
+        default: 'This is the <%= tag %> component'
       }
     });
   </script>

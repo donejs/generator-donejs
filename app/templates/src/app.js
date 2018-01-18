@@ -4,11 +4,11 @@ import 'can-route-pushstate';
 
 const AppViewModel = DefineMap.extend({
   message: {
-    value: 'Hello World!',
+    default: 'Hello World!',
     serialize: false
   },
   title: {
-    value: '<%= name %>',
+    default: '<%= name %>',
     serialize: false
   }
 });
