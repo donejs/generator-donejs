@@ -52,7 +52,7 @@
   "devDependencies": {
     "coveralls-send": "0.0.2",
     "donejs": "*",
-    "donejs-cli": "^2.0.0-pre.2",
+    "donejs-cli": "^2.0.0-pre.3",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
     "mkdirp": "^0.5.1",

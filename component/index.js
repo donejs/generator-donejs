@@ -102,7 +102,7 @@ module.exports = BaseGenerator.extend({
       name: name,
       app: appName,
       // The full module name (e.g. pmo/restaurant/list)
-      module: isRootComponent ? parts.join('/') : [appName].concat(parts).join('/')
+      module: isRootComponent ? parts.join('/') : ["~"].concat(parts).join('/')
     };
 
     if (isDoneComponent) {
@@ -122,7 +122,7 @@ module.exports = BaseGenerator.extend({
       });
 
       var mainTests = this.destinationPath(path.join(folder, 'test.js'));
-      utils.addImport(mainTests, [appName].concat(fullPath.slice(1)).join('/') +
+      utils.addImport(mainTests, ["~"].concat(fullPath.slice(1)).join('/') +
         '/' + name + '-test');
     }
     done();
