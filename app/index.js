@@ -36,6 +36,7 @@ module.exports = BaseGenerator.extend({
       'index.md',
       'styles.less',
       'test.js',
+      'is-dev.js',
       'models/fixtures/fixtures.js',
       'models/test.js'
     ];
@@ -173,7 +174,11 @@ module.exports = BaseGenerator.extend({
         directories: {
           lib: this.props.folder
         },
-        configDependencies: [ 'live-reload', 'node_modules/can-zone/register' ],
+        configDependencies: [
+          'live-reload',
+          'node_modules/can-zone/register',
+          'node_modules/steal-conditional/conditional'
+        ],
         plugins: [ 'done-css', 'done-component', 'steal-less', 'steal-stache' ],
         envs: {
           'server-production': {
