@@ -3,9 +3,7 @@ language: node_js
 addons:
   firefox: "51.0"
 node_js:
-  - "4"
   - "6"
-  - "7"
   - "8"
 before_install:
   - "export DISPLAY=:99.0"

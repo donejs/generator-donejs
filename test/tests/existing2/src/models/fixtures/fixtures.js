@@ -1,1 +1,1 @@
-import 'existing/models/fixtures/foo';
+import '~/models/fixtures/foo';

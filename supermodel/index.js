@@ -135,9 +135,9 @@ module.exports = BaseGenerator.extend({
     });
 
     var modelTest = this.destinationPath(path.join(folder, 'models', 'test.js'));
-    utils.addImport(modelTest, appName + '/models/' + options.name + '-test');
+    utils.addImport(modelTest, '~/models/' + options.name + '-test');
     var fixturesFile = this.destinationPath(path.join(folder, 'models', 'fixtures', 'fixtures.js'));
-    utils.addImport(fixturesFile, appName + '/models/fixtures/' + _.pluralize(options.name));
+    utils.addImport(fixturesFile, '~/models/fixtures/' + _.pluralize(options.name));
 
     done();
   }

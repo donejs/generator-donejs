@@ -5,7 +5,7 @@ import view from './<%= name %>.stache';
 
 export const ViewModel = DefineMap.extend({
   message: {
-    value: 'This is the <%= tag %> component'
+    default: 'This is the <%= tag %> component'
   }
 });
 

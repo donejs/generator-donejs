@@ -1,14 +1,19 @@
 import DefineMap from 'can-define/map/';
 import route from 'can-route';
 import 'can-route-pushstate';
+import 'can-debug#?./is-dev';
 
 const AppViewModel = DefineMap.extend({
+  env: {
+    default: () => ({NODE_ENV:'development'}),
+    serialize: false
+  },
   message: {
-    value: 'Hello World!',
+    default: 'Hello World!',
     serialize: false
   },
   title: {
-    value: '<%= name %>',
+    default: '<%= name %>',
     serialize: false
   }
 });

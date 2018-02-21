@@ -191,6 +191,39 @@ describe('generator-donejs', function () {
       });
   });
 
+  it('loads can-debug using steal-conditional', function(done) {
+    var tmpDir;
+
+    helpers.run(generator)
+      .inTmpDir(function (dir) {
+        tmpDir = dir;
+      })
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: true
+      })
+      .withPrompts({
+        name: 'place-my-npm'
+      })
+      .on('end', function () {
+        var pkg = require(tmpDir + '/package.json');
+        var configDeps = pkg.steal.configDependencies;
+
+        // can-debug import with condition
+        assert.fileContent('src/app.js', /can-debug#\?\.\/is-dev/);
+
+        // copies the condition module
+        assert.file('src/is-dev.js');
+
+        assert.ok(
+          configDeps.indexOf('node_modules/steal-conditional/conditional') !== -1,
+          'steal-conditional should be loaded as a config dependency'
+        );
+
+        done();
+      });
+  });
+
   it('adds a license to the root folder and package.json', function (done) {
     var tmpDir;
     helpers.run(generator)
@@ -348,7 +381,7 @@ function prepareRoutingTest(tmpDir){
   insert(
     path.join(tmpDir, 'src/index.stache'),
     function(a){ return a.search('<h1>') !== -1; },
-    '<can-import from="can-stache/helpers/route" />' +
+    '<can-import from="can-stache-route-helpers" />' +
     '<a id="goto-dashboard" href="{{routeUrl page=\'dashboard\'}}">Goto Dashboard</a>'
   );
 }
