@@ -1,4 +1,5 @@
-var validate = require("validate-npm-package-name");
+var gitConfig = require('git-config');
+var validate = require('validate-npm-package-name');
 var BaseGenerator = require('../lib/baseGenerator');
 var path = require('path');
 var _ = require('lodash');
@@ -42,6 +43,11 @@ module.exports = BaseGenerator.extend({
     ];
   },
 
+  initializing: function initializing() {
+    this.gitConfig = gitConfig.sync();
+    this.gitConfig.user = this.gitConfig.user || {};
+  },
+
   prompting: function () {
     var done = this.async();
 
@@ -77,16 +83,19 @@ module.exports = BaseGenerator.extend({
         name: 'authorName',
         message: 'Author\'s Name',
         when: !this.pkg.author,
+        default: this.gitConfig.user.name,
         store: true
       }, {
         name: 'authorEmail',
         message: 'Author\'s Email',
         when: !this.pkg.author,
+        default: this.gitConfig.user.email,
         store: true
       }, {
         name: 'authorUrl',
         message: 'Author\'s Homepage',
         when: !this.pkg.author,
+        default: 'https://donejs.com',
         store: true
       }, {
         name: 'keywords',
@@ -98,7 +107,11 @@ module.exports = BaseGenerator.extend({
         default: version.major
       }];
 
-      this.prompt(prompts).then(function(props) {
+      var promptsPromise = this.options.useDefaults ?
+        this._getPromptDefaults(prompts) :
+        this.prompt(prompts);
+
+      promptsPromise.then(function(props) {
         this.props = _.extend(this.props, props);
 
         var validationResults = validate(this.props.name);
@@ -115,9 +128,14 @@ module.exports = BaseGenerator.extend({
 
         if(!isValidName) {
           var warnings = validationResults.warnings;
-          var error = new Error('Your project name ' + this.props.name + ' is not ' +
-            'valid. Please try another name. Reason: ' + warnings[0]);
-          done(error);
+          done(
+            new Error(
+              'Your project name ' +
+              this.props.name +
+              ' is not valid. Please try another name. Reason: ' +
+              warnings[0]
+            )
+          );
           return;
         }
 
@@ -126,9 +144,13 @@ module.exports = BaseGenerator.extend({
         }
         var isValidPath = this.props.folder.indexOf('..') === -1;
         if (!isValidPath) {
-          var error = new Error('Your project main folder ' + this.props.folder + ' is external ' +
-            'to the project folder. Please set to internal path.');
-          done(error);
+          done(
+            new Error(
+              'Your project main folder ' +
+              this.props.folder +
+              ' is external to the project folder. Please set to internal path.'
+            )
+          );
           return;
         }
 
@@ -205,12 +227,10 @@ module.exports = BaseGenerator.extend({
       devDependencies: devDeps
     }));
 
-    this.composeWith(require.resolve('generator-license/app'), {
-      name: this.props.authorName,
-      email: this.props.authorEmail,
-      website: this.props.authorUrl,
-      defaultLicense: 'MIT'
-    });
+    this.composeWith(
+      require.resolve('generator-license/app'),
+      this._getGeneratorLicenseOptions()
+    );
 
     this.mainFiles.forEach(function(name) {
       // Handle bug where npm has renamed .gitignore to .npmignore
@@ -236,5 +256,45 @@ module.exports = BaseGenerator.extend({
       var done = this.async();
       this.spawnCommand('npm', ['--loglevel', 'error', 'install']).on('close', done);
     }
+  },
+
+  /**
+   * Given a list of Inquirer prompts, returns default values for each.
+   *
+   * It filters out prompts with `when` field set to false, those would not
+   * haven been shown to the user anyway.
+   *
+   * @return {Promise.<Object>}
+   */
+  _getPromptDefaults: function(prompts) {
+    var answers = {};
+
+    var shown = _.filter(prompts, function(prompt) {
+      return !_.has(prompt, 'when') || !!prompt.when;
+    });
+
+    _.forEach(shown, function(prompt) {
+      answers[prompt.name] = _.isUndefined(prompt.default) ? "" : prompt.default;
+    });
+
+    return Promise.resolve(answers);
+  },
+
+  _getGeneratorLicenseOptions: function() {
+    var options = {
+      name: this.props.authorName,
+      email: this.props.authorEmail,
+      website: this.props.authorUrl,
+      defaultLicense: 'MIT'
+    };
+
+    // prevent generator-license to show prompts
+    if (this.options.useDefaults) {
+      options.license = 'ISC';
+      options.defaultLicense = 'ISC';
+      options.email = options.email || 'contact@bitovi.com';
+    }
+
+    return options;
   }
 });
