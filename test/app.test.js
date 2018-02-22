@@ -242,7 +242,27 @@ describe('generator-donejs', function () {
       })
       .on('end', function () {
         assert.jsonFileContent('package.json', {license: 'MIT'}, 'license field set in package.json');
-        assert(fs.existsSync(path.join(tmpDir, 'LICENSE')), 'license file exists in root folder');
+        done();
+      });
+  });
+
+  it('uses prompt defaults if useDefaults options is true', function(done) {
+    helpers.run(generator)
+      .withOptions({
+        packages: donejsPackage.donejs,
+        useDefaults: true,
+        skipInstall: true
+      })
+      .on('end', function() {
+        assert.jsonFileContent('package.json', {
+          description: 'An awesome DoneJS app',
+          files: ['src'],
+          author: {
+            url: 'https://donejs.com'
+          },
+          license: 'ISC'
+        });
+        assert.file('LICENSE');
         done();
       });
   });
