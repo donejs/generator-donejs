@@ -1,7 +1,7 @@
-import DefineMap from 'can-define/map/';
-import route from 'can-route';
-import 'can-route-pushstate';
+import { DefineMap, route, RoutePushstate } from 'can';
 import 'can-debug#?./is-dev';
+
+route.urlData = new RoutePushstate();
 
 const AppViewModel = DefineMap.extend({
   env: {

@@ -1,5 +1,4 @@
-import Component from 'can-component';
-import DefineMap from 'can-define/map/';
+import { Component, DefineMap } from 'can';
 import './<%= name %>.less';
 import view from './<%= name %>.stache';
 

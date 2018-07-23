@@ -1,7 +1,5 @@
-var stealTools = require("steal-tools");
+const stealTools = require("steal-tools");
 
-var buildPromise = stealTools.build({
-  config: __dirname + "/package.json!npm"
-}, {
+let buildPromise = stealTools.build({}, {
   bundleAssets: true
 });
