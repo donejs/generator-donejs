@@ -3,15 +3,13 @@ import 'can-debug#?./is-dev';
 
 const AppViewModel = DefineMap.extend({
   env: {
-    default: () => ({NODE_ENV:'development'}),
-    serialize: false
+    default: () => ({NODE_ENV:'development'})
   },
   title: {
-    default: '<%= name %>',
-    serialize: false
+    default: '<%= name %>'
   }
   routeData: {
-    default: route.data
+    default: () => route.data
   }
 });
 
