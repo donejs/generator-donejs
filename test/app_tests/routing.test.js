@@ -13,6 +13,6 @@ QUnit.test('App should route with hashtags', function(assert) {
 	F('#goto-dashboard').click();
 
 	F.add(function(){
-		assert.equal(F.win.location.hash, '#!/dashboard', 'location.hash should contain a hashtag');
+		assert.equal(F.win.location.hash, '#!dashboard', 'location.hash should contain a hashtag');
 	});
 });

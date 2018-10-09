@@ -385,24 +385,12 @@ function prepareRoutingTest(tmpDir){
   // import the copied test in test.js (note that it refers project name):
   fs.appendFileSync(path.join(tmpDir, 'src/test.js'), '\nimport "place-my-tmp/test/routing.test";\n');
 
-  // add page property to AppViewModel
-  insert(
-    path.join(tmpDir, 'src/app.js'),
-    function(a){ return a.search('message') !== -1; },
-    'page: \'string\',',
-    true
-  );
-
-  // add routing into app.js:
-  // route('/:page', {page: 'home'});
-  fs.appendFileSync(path.join(tmpDir, 'src/app.js'), '\nroute("/:page", {page: "home"});\n');
-
   // add a button for navigation into index.stache after H1:
   insert(
     path.join(tmpDir, 'src/index.stache'),
     function(a){ return a.search('<h1>') !== -1; },
     '<can-import from="can-stache-route-helpers" />' +
-    '<a id="goto-dashboard" href="{{routeUrl page=\'dashboard\'}}">Goto Dashboard</a>'
+    '<a id="goto-dashboard" href="{{routeUrl(page=\'dashboard\')}}">Goto Dashboard</a>'
   );
 }
 

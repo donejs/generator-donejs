@@ -7,7 +7,7 @@ const AppViewModel = DefineMap.extend({
   },
   title: {
     default: '<%= name %>'
-  }
+  },
   routeData: {
     default: () => route.data
   }

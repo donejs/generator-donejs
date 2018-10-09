@@ -1,10 +1,10 @@
 <html>
   <head>
-    <title>{{title}}</title>
+    <title>{{this.title}}</title>
   </head>
   <body>
     <can-import from="~/styles.less" />
-    <can-import from="~/app" export-as="viewModel" />
+    <can-import from="~/app" export-as="viewModel" route-data="routeData" />
 
     <h1>The <strong>{{this.routeData.page}}</strong> page</h1>
 
