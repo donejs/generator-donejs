@@ -91,6 +91,9 @@ module.exports = BaseGenerator.extend({
       fullPath.pop();
     }
 
+    // The tag name as a CamelCase for the VM
+    var tagCase = utils.upperFirst(_.camelCase(this.options.tag));
+
     var options = {
       // ../ levels to go up to the root
       root: _.repeat('../', fullPath.length),
@@ -98,6 +101,7 @@ module.exports = BaseGenerator.extend({
       path: path.join.apply(path, fullPath),
       // The full tag name (prepending the short name if it isn't there yet)
       tag: this.options.tag,
+      tagCase: tagCase,
       // The short name of the component (e.g. list for restaurant/list)
       name: name,
       app: appName,
