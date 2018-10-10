@@ -35,6 +35,27 @@ describe('generator-donejs', function () {
         });
     });
 
+    it('Adds the right ViewModel name for a .component type', function (done) {
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'app-cart.component'
+        })
+        .on('end', function () {
+          var content = fs.readFileSync(path.join(tmpDir, 'src', 'app-cart.component'), 'utf8');
+          assert.ok(/AppCartVM/.test(content), "Names the VM correctly");
+          done();
+        });
+    });
+
     it('can provide a name that includes the package name', function(done) {
       var tmpDir;
 
