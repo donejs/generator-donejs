@@ -1,5 +1,12 @@
-import { DefineMap, route, RoutePushstate } from 'can';
-import 'can-debug#?./is-dev';
+import { DefineMap, route } from 'can';
+import RoutePushstate from 'can-route-pushstate';
+import debug from 'can-debug#?is-dev';
+
+//!steal-remove-start
+if(debug) {
+	debug();
+}
+//!steal-remove-end
 
 const AppViewModel = DefineMap.extend({
   env: {
