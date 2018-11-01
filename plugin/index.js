@@ -5,9 +5,9 @@ var utils = require('../lib/utils')
 var npmVersion = utils.npmVersion;
 var getKeywords = utils.getKeywords;
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
@@ -34,9 +34,9 @@ module.exports = BaseGenerator.extend({
       'plugin.md',
       'test.js'
     ];
-  },
+  }
 
-  prompting: function() {
+  prompting() {
     var done = this.async();
 
     npmVersion(function(err, version){
@@ -97,9 +97,9 @@ module.exports = BaseGenerator.extend({
         done();
       }.bind(this));
     }.bind(this));
-  },
+  }
 
-  writing: function() {
+  writing() {
     var self = this;
     var jshintFolder = this.props.folder && this.props.folder !== '.' ?
       ' ./' + this.props.folder + '/' : '';
@@ -221,12 +221,12 @@ module.exports = BaseGenerator.extend({
         self.props
       );
     });
-  },
+  }
 
-  end: function() {
+  end() {
     if(!this.options.skipInstall) {
       var done = this.async();
       this.spawnCommand('npm', ['--loglevel', 'error', 'install']).on('close', done);
     }
   }
-});
+};

@@ -7,9 +7,9 @@ var utils = require('../lib/utils');
 var npmVersion = utils.npmVersion;
 var getKeywords = utils.getKeywords;
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
@@ -41,14 +41,14 @@ module.exports = BaseGenerator.extend({
       'models/fixtures/fixtures.js',
       'models/test.js'
     ];
-  },
+  }
 
-  initializing: function initializing() {
+  initializing() {
     this.gitConfig = gitConfig.sync();
     this.gitConfig.user = this.gitConfig.user || {};
-  },
+  }
 
-  prompting: function () {
+  prompting() {
     var done = this.async();
 
     npmVersion(function(err, version){
@@ -157,9 +157,9 @@ module.exports = BaseGenerator.extend({
         done();
       }.bind(this));
     }.bind(this));
-  },
+  }
 
-  writing: function () {
+  writing() {
     var pkgName = this.props.name;
     var pkgMain = pkgName + '/index.stache!done-autorender';
     var repository = this.props.repository || {
@@ -249,14 +249,14 @@ module.exports = BaseGenerator.extend({
         self.props
       );
     });
-  },
+  }
 
-  end: function () {
+  end() {
     if(!this.options.skipInstall) {
       var done = this.async();
       this.spawnCommand('npm', ['--loglevel', 'error', 'install']).on('close', done);
     }
-  },
+  }
 
   /**
    * Given a list of Inquirer prompts, returns default values for each.
@@ -266,7 +266,7 @@ module.exports = BaseGenerator.extend({
    *
    * @return {Promise.<Object>}
    */
-  _getPromptDefaults: function(prompts) {
+  _getPromptDefaults(prompts) {
     var answers = {};
 
     var shown = _.filter(prompts, function(prompt) {
@@ -278,9 +278,9 @@ module.exports = BaseGenerator.extend({
     });
 
     return Promise.resolve(answers);
-  },
+  }
 
-  _getGeneratorLicenseOptions: function() {
+  _getGeneratorLicenseOptions() {
     var options = {
       name: this.props.authorName,
       email: this.props.authorEmail,
@@ -297,4 +297,4 @@ module.exports = BaseGenerator.extend({
 
     return options;
   }
-});
+};

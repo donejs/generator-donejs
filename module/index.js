@@ -4,9 +4,9 @@ var path = require('path');
 var _ = require('lodash');
 var utils = require('../lib/utils');
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.templatePath = utils.templatePath(path.join('.donejs', 'templates', 'module'));
 
@@ -22,9 +22,9 @@ module.exports = BaseGenerator.extend({
       'test.html',
       'module-test.js'
     ];
-  },
+  }
 
-  prompting: function () {
+  prompting() {
     var done = this.async();
     this.prompt({
       name: 'name',
@@ -35,9 +35,9 @@ module.exports = BaseGenerator.extend({
       _.extend(this.options, prompt);
       done();
     }.bind(this));
-  },
+  }
 
-  writing: function () {
+  writing() {
     var self = this;
     var pkgFile = this.destinationPath('package.json');
     var parts = this.options.name.split('/');
@@ -80,4 +80,4 @@ module.exports = BaseGenerator.extend({
     utils.addImport(mainTests, [appName].concat(fullPath.slice(1)).join('/') +
       '/' + name + '-test');
   }
-});
+};
