@@ -3,9 +3,9 @@ var path = require('path');
 var _ = require('lodash');
 var utils = require('../lib/utils');
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.templatePath = utils.templatePath(path.join('.donejs', 'templates', 'component'));
 
@@ -30,9 +30,9 @@ module.exports = BaseGenerator.extend({
       'modlet/component-test.js',
       'modlet/test.html'
     ];
-  },
+  }
 
-  prompting: function() {
+  prompting() {
     var done = this.async();
     this.prompt({
       name: 'name',
@@ -60,9 +60,9 @@ module.exports = BaseGenerator.extend({
         done();
       }.bind(this));
     }.bind(this));
-  },
+  }
 
-  writing: function() {
+  writing() {
     var isDoneComponent = this.isDoneComponent;
     var self = this;
     var done = this.async();
@@ -131,4 +131,4 @@ module.exports = BaseGenerator.extend({
     }
     done();
   }
-});
+};

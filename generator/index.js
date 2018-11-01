@@ -5,9 +5,9 @@ var packages = require('./packages');
 var utils = require('../lib/utils');
 var getKeywords = utils.getKeywords;
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
@@ -28,9 +28,9 @@ module.exports = BaseGenerator.extend({
       'default/index.js',
       'test/index.js'
     ];
-  },
+  }
 
-  prompting: function() {
+  prompting() {
     var done = this.async();
 
     var prompts = [{
@@ -77,9 +77,9 @@ module.exports = BaseGenerator.extend({
       this.props.addName = this.props.name.replace('donejs-', '');
       done();
     }.bind(this));
-  },
+  }
 
-  writing: function() {
+  writing() {
     var self = this;
     var keywords = getKeywords('generator', this.props.keywords);
     this.fs.writeJSON('package.json', {
@@ -132,4 +132,4 @@ module.exports = BaseGenerator.extend({
       );
     });
   }
-});
+};
