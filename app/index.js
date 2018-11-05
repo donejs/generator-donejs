@@ -207,7 +207,11 @@ module.exports = class extends BaseGenerator {
             renderingBaseURL: '/dist'
           }
         },
-        serviceBaseURL: ''
+        serviceBaseURL: '',
+        bundle: [
+          "~/pages/**/",
+          "~/pages/*.component"
+        ]
       }
     };
 
