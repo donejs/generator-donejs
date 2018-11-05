@@ -1,4 +1,4 @@
-import { DefineMap, DefineList, superModel } = 'can';
+import { DefineMap, DefineList, superModel } from 'can';
 import loader from '@loader';
 
 const <%= className %> = DefineMap.extend({
