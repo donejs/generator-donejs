@@ -210,7 +210,7 @@ module.exports = class extends BaseGenerator {
         serviceBaseURL: '',
         bundle: [
           "~/pages/**/",
-          "~/pages/*.component"
+          "~/pages/**/*.component"
         ]
       }
     };
