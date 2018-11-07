@@ -56,6 +56,30 @@ describe('generator-donejs', function () {
         });
     });
 
+    it('Exports the component and ViewModel in a modlet', function(done) {
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'pages/restaurant/list',
+          tag: 'pmo-restaurant-list'
+        })
+        .on('end', function () {
+          var compFile = path.join(tmpDir, 'src', 'pages', 'restaurant', 'list', 'list.js');
+          assert.fileContent(compFile, /export const PmoRestaurantList/);
+          assert.fileContent(compFile, /export default PmoRestaurantList/);
+          assert.fileContent(compFile, /export const ViewModel = PmoRestaurantList\.ViewModel/);
+          done();
+        });
+    });
+
     it('can provide a name that includes the package name', function(done) {
       var tmpDir;
 

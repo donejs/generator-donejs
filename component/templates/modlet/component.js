@@ -2,7 +2,7 @@ import { Component } from 'can';
 import './<%= name %>.less';
 import view from './<%= name %>.stache';
 
-export default Component.extend({
+export const <%= tagCase %> = Component.extend({
   tag: '<%= tag %>',
   view,
   ViewModel: {
@@ -30,3 +30,6 @@ export default Component.extend({
     }
   }
 });
+
+export default <%= tagCase %>;
+export const ViewModel = <%= tagCase %>.ViewModel;
