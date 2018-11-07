@@ -1,4 +1,4 @@
-import fixture from 'can-fixture';
+import { fixture } from 'can';
 import <%= className %> from '../<%= name %>';
 
 const store = fixture.store([{
@@ -7,7 +7,7 @@ const store = fixture.store([{
 }, {
   <%= idProp %>: 1,
   description: 'Second item'
-}], <%= className %>.connection.algebra);
+}], <%= className %>.connection.queryLogic);
 
 fixture('<%= url %>/{<%= idProp %>}', store);
 
