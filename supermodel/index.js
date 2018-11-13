@@ -7,9 +7,9 @@ var utils = require('../lib/utils');
 var upperFirst = require("lodash.upperfirst");
 var utils = require('../lib/utils');
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.templatePath = utils.templatePath(path.join('.donejs', 'templates', 'supermodel'));
 
@@ -26,9 +26,9 @@ module.exports = BaseGenerator.extend({
       'model.js',
       'model-test.js'
     ];
-  },
+  }
 
-  prompting: function() {
+  prompting() {
     var done = this.async();
 
     function addToProps(props){
@@ -88,9 +88,9 @@ module.exports = BaseGenerator.extend({
         }
       }.bind(this));
     }.bind(this));
-  },
+  }
 
-  writing: function() {
+  writing() {
     var self = this;
     var done = this.async();
     _.mixin(require("lodash-inflection"));
@@ -141,4 +141,4 @@ module.exports = BaseGenerator.extend({
 
     done();
   }
-});
+};

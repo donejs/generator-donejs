@@ -3,9 +3,9 @@ var path = require('path');
 var _ = require('lodash');
 var utils = require('../lib/utils');
 
-module.exports = BaseGenerator.extend({
-  constructor: function(args, opts) {
-    BaseGenerator.call(this, args, opts);
+module.exports = class extends BaseGenerator {
+  constructor(args, opts) {
+    super(args, opts);
 
     this.templatePath = utils.templatePath(path.join('.donejs', 'templates', 'component'));
 
@@ -30,9 +30,9 @@ module.exports = BaseGenerator.extend({
       'modlet/component-test.js',
       'modlet/test.html'
     ];
-  },
+  }
 
-  prompting: function() {
+  prompting() {
     var done = this.async();
     this.prompt({
       name: 'name',
@@ -60,9 +60,9 @@ module.exports = BaseGenerator.extend({
         done();
       }.bind(this));
     }.bind(this));
-  },
+  }
 
-  writing: function() {
+  writing() {
     var isDoneComponent = this.isDoneComponent;
     var self = this;
     var done = this.async();
@@ -91,6 +91,9 @@ module.exports = BaseGenerator.extend({
       fullPath.pop();
     }
 
+    // The tag name as a CamelCase for the VM
+    var tagCase = utils.upperFirst(_.camelCase(this.options.tag));
+
     var options = {
       // ../ levels to go up to the root
       root: _.repeat('../', fullPath.length),
@@ -98,6 +101,7 @@ module.exports = BaseGenerator.extend({
       path: path.join.apply(path, fullPath),
       // The full tag name (prepending the short name if it isn't there yet)
       tag: this.options.tag,
+      tagCase: tagCase,
       // The short name of the component (e.g. list for restaurant/list)
       name: name,
       app: appName,
@@ -127,4 +131,4 @@ module.exports = BaseGenerator.extend({
     }
     done();
   }
-});
+};
