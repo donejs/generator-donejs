@@ -333,6 +333,33 @@ describe('generator-donejs', function () {
             done();
           });
       });
+
+      it('Adds the function name to the Define.extend call', function(done) {
+        var tmpDir;
+        helpers.run(path.join(__dirname, '../supermodel'))
+          .inTmpDir(function (dir) {
+            tmpDir = dir;
+            fs.copySync(path.join( __dirname, "tests", "basics" ), dir)
+          })
+          .withOptions({
+            skipInstall: true
+          })
+          .withPrompts({
+            name: 'restaurant',
+            url: '  /restaurant',
+            idProp: "id"
+          })
+          .on('end', function () {
+            assert( fs.existsSync( path.join( tmpDir, "src", "models", "restaurant.js" ) ), "restaurant.js exists" );
+
+            var content = fs.readFileSync( path.join( tmpDir, "src", "models", "restaurant.js" ), "utf8");
+
+            assert.ok(/DefineMap\.extend\('Restaurant'/.test(content), "contains the name");
+            assert.ok(/DefineList\.extend\('RestaurantList'/.test(content), "contains the list name");
+
+            done();
+          });
+      });
     });
 
     it('using arguments works', function (done) {

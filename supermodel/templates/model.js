@@ -1,7 +1,7 @@
 import { DefineMap, DefineList, superModel } from 'can';
 import loader from '@loader';
 
-const <%= className %> = DefineMap.extend({
+const <%= className %> = DefineMap.extend('<%= className %>', {
   seal: false
 }, {
   '<%= idProp %>': {
@@ -10,7 +10,7 @@ const <%= className %> = DefineMap.extend({
   }
 });
 
-<%= className %>.List = DefineList.extend({
+<%= className %>.List = DefineList.extend('<%= className %>List', {
   '#': <%= className %>
 });
 
