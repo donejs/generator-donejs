@@ -1,4 +1,10 @@
-<<%= tag %>></<%= tag %>>
+<script src="<%= root %>node_modules/steal/steal.js"></script>
+<script type="steal-module">
+  import <%= tagCase %> from "<%= module %>/";
 
-<script src="<%= root %>node_modules/steal/steal.js"
-        main="<%= module %>/"></script>
+  let <%= camelCase %> = new <%= tagCase %>({
+    viewModel: {}
+  });
+
+  document.body.appendChild(<%= camelCase %>.element);
+</script>
