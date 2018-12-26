@@ -164,7 +164,7 @@ describe('generator-donejs', function () {
     });
   });
 
-  it('steal-less and steal-stache are added as steal plugins', function(done) {
+  it('steal-less and can are added as steal plugins', function(done) {
     var tmpDir;
 
     helpers.run(generator)
@@ -183,7 +183,7 @@ describe('generator-donejs', function () {
         var plugins = pkg.steal.plugins;
 
         assert.ok(plugins.indexOf('steal-less') >= 0, 'plugins config should contain steal-less');
-        assert.ok(plugins.indexOf('steal-stache') >= 0, 'plugins config should contain steal-stache');
+        assert.ok(plugins.indexOf('can') >= 0, 'plugins config should contain can');
         assert.ok(plugins.indexOf('done-component') >= 0, 'plugins config should contain done-component');
         assert.ok(plugins.indexOf('done-css') >= 0, 'plugins config should contain done-css');
 
