@@ -201,7 +201,7 @@ module.exports = class extends BaseGenerator {
           'node_modules/can-zone/register',
           'node_modules/steal-conditional/conditional'
         ],
-        plugins: [ 'done-css', 'done-component', 'steal-less', 'steal-stache' ],
+        plugins: [ 'done-css', 'done-component', 'steal-less', 'can' ],
         envs: {
           'server-production': {
             renderingBaseURL: '/dist'
