@@ -243,5 +243,83 @@ describe('generator-donejs', function () {
           done();
         });
     });
+
+    it('Generates a component with a name like project name', function(done) {
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'basics',
+          tag: 'foo-bar'
+        })
+        .on('end', function () {
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics.js')), 'basics.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics.md')), 'basics.md exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics.less')), 'basics.less exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics.stache')), 'basics.stache exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics-test.js')), 'basics-test.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics.html')), 'basics.html exists');
+          done();
+        });
+    });
+
+    it('Generates a component with a name like project name inside a "components" folder', function(done) {
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'components/basics',
+          tag: 'foo-bar'
+        })
+        .on('end', function () {
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics.js')), 'basics.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics.md')), 'basics.md exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics.less')), 'basics.less exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics.stache')), 'basics.stache exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics-test.js')), 'basics-test.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'components', 'basics', 'basics.html')), 'basics.html exists');
+          done();
+        });
+    });
+
+    it('Generates a component with a name and a folder like the project name', function(done) {
+      var tmpDir;
+
+      helpers.run(path.join(__dirname, '../component'))
+        .inTmpDir(function (dir) {
+          tmpDir = dir;
+          fs.copySync(path.join( __dirname, "tests", 'basics'), dir)
+        })
+        .withOptions({
+          skipInstall: true
+        })
+        .withPrompts({
+          name: 'basics/basics',
+          tag: 'foo-bar'
+        })
+        .on('end', function () {
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics.js')), 'basics.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics.md')), 'basics.md exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics.less')), 'basics.less exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics.stache')), 'basics.stache exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics-test.js')), 'basics-test.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'basics', 'basics', 'basics.html')), 'basics.html exists');
+          done();
+        });
+    });
   });
 });
