@@ -84,7 +84,7 @@ module.exports = class extends BaseGenerator {
       parts.shift();
     }
 
-    var fullPath = isRootComponent ? [folder] : [folder].concat(parts);
+    var fullPath = [folder].concat(parts);
 
     // .component files don't go in their own folder
     if (isDoneComponent) {
@@ -108,7 +108,7 @@ module.exports = class extends BaseGenerator {
       name: name,
       app: appName,
       // The full module name (e.g. pmo/restaurant/list)
-      module: isRootComponent ? parts.join('/') : ["~"].concat(parts).join('/')
+      module: ["~"].concat(parts).join('/')
     };
 
     if (isDoneComponent) {
