@@ -31,8 +31,7 @@ module.exports = class extends BaseGenerator {
     this.srcFiles = [
       'plugin-test.js',
       'plugin.js',
-      'plugin.md',
-      'test.js'
+      'plugin.md'
     ];
   }
 
@@ -50,6 +49,15 @@ module.exports = class extends BaseGenerator {
         message: 'Project name',
         when: !this.pkg.name,
         default: process.cwd().split(path.sep).pop()
+      }, {
+        name: 'public',
+        type: 'confirm',
+        message: 'Is this project public',
+        default: true,
+        when: function (response) {
+          // Only prompt if the name prop starts with "@" indicating a scoped package
+          return response.name.indexOf('@') === 0
+        }
       }, {
         name: 'folder',
         message: 'Project main folder',
@@ -93,7 +101,22 @@ module.exports = class extends BaseGenerator {
 
       this.prompt(prompts).then(function(props) {
         this.props = _.extend(this.props, props);
-        this.props.name = _.kebabCase(this.props.name);
+        var scopedPkgName = undefined;
+        var pkgName = _.kebabCase(this.props.name);
+        
+        // Parse out any scoping
+        if (this.props.name.indexOf('@') === 0) {
+          // Get the scope of the package
+          var scope = this.props.name.match(/@.+\//)[0];
+          // kebabCase the package name minus the scope
+          // this will be used in the repository url
+          pkgName = _.kebabCase(this.props.name.replace(scope, ''));
+          // Create the scoped name for use in the package.json
+          scopedPkgName = scope + pkgName;
+        }
+
+        this.props.name = pkgName;
+        this.props.pkgName = scopedPkgName || pkgName;
         done();
       }.bind(this));
     }.bind(this));
@@ -105,7 +128,7 @@ module.exports = class extends BaseGenerator {
       ' ./' + this.props.folder + '/' : '';
     var keywords = getKeywords('plugin', this.props.keywords);
     var pkgJsonFields = {
-      name: this.props.name,
+      name: this.props.pkgName,
       version: '0.0.0',
       description: this.props.description,
       homepage: this.props.homepage,
@@ -125,9 +148,9 @@ module.exports = class extends BaseGenerator {
         testee: "testee test.html --browsers firefox",
         test: "npm run jshint && npm run testee",
         jshint: "jshint ./*.js" + jshintFolder + " --config",
-        "release:patch": "npm version patch && npm publish",
-        "release:minor": "npm version minor && npm publish",
-        "release:major": "npm version major && npm publish",
+        "release:patch": "npm version patch && npm publish".concat(this.props.public ? " --access public" : ""),
+        "release:minor": "npm version minor && npm publish".concat(this.props.public ? " --access public" : ""),
+        "release:major": "npm version major && npm publish".concat(this.props.public ? " --access public" : ""),
         build: "node build.js",
         develop: "done-serve --static --develop --port 8080"
       },
