@@ -154,4 +154,35 @@ describe('generator-donejs:plugin', function () {
         done();
       });
   });
+
+  it('should handle scoped package names', function (done) {
+    var tmpDir;
+
+    helpers.run(path.join(__dirname, '../plugin'))
+      .inTmpDir(function (dir) {
+        tmpDir = dir;
+      })
+      .withOptions({
+        packages: donejsPackage.donejs,
+        skipInstall: false
+      })
+      .withPrompts({
+        name: '@bitovi/my-plugin'
+      })
+      .on('end', function () {
+        var child = exec('npm test', {
+          cwd: tmpDir
+        });
+
+        pipe(child);
+
+        child.on('exit', function (status) {
+          assert.equal(status, 0, 'Got correct exit status');
+
+          assert.jsonFileContent('package.json', { name: '@bitovi/my-plugin' }, 'correct name set in package.json');
+          assert.jsonFileContent('package.json', { main: 'dist/cjs/my-plugin' }, 'correct main set in package.json');
+          done();
+        });
+      });
+  });
 });
