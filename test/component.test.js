@@ -230,16 +230,16 @@ describe('generator-donejs', function () {
           skipInstall: true
         })
         .withPrompts({
-          name: 'basics/foo/ bar',
-          tag: 'foo-bar'
+          name: 'basics/past-year/ past-year',
+          name: 'basics/past-year/ past-year',
         })
         .on('end', function () {
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.js')), 'bar.js exists');
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.md')), 'bar.md exists');
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.less')), 'bar.less exists');
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.stache')), 'bar.stache exists');
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar-test.js')), 'bar-test.js exists');
-          assert(fs.existsSync(path.join(tmpDir, 'src', 'foo', 'bar', 'bar.html')), 'bar.html exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year.js')), 'past-year.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year.md')), 'past-year.md exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year.less')), 'past-year.less exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year.stache')), 'past-year.stache exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year-test.js')), 'past-year-test.js exists');
+          assert(fs.existsSync(path.join(tmpDir, 'src', 'past-year', 'past-year', 'past-year.html')), 'past-year.html exists');
           done();
         });
     });
